@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FaPlay, FaQuoteRight } from "react-icons/fa";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
 
 export default function Section4() {
   const avatarData = [
@@ -29,34 +32,26 @@ export default function Section4() {
     },
   ];
 
-  const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
-
-  const showNextAvatar = () => {
-    setCurrentAvatarIndex((prevIndex) => (prevIndex + 1) % avatarData.length);
-  };
-
-  useEffect(() => {
-    const intervalId = setInterval(showNextAvatar, 4000);
-    return () => clearInterval(intervalId);
-  }, []);
-
   return (
     <div className="section4">
       <div className="avatars">
-        {avatarData.map((avatar, index) => (
-          <div
-            key={avatar.id}
-            className={`avatar-item ${
-              index === currentAvatarIndex ? "active" : "hidden"
-            }`}
-          >
-            <img src={avatar.imageSrc} alt={avatar.name} />
-            <h4>{avatar.name}</h4>
-            <p>{avatar.role}</p>
-            <p className="quote"> {avatar.quote}</p>
-            <FaQuoteRight />
-          </div>
-        ))}
+        <Swiper
+          modules={[Autoplay]}
+          spaceBetween={30}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{ delay: 2000, disableOnInteraction: false }}
+        >
+          {avatarData.map((avatar) => (
+            <SwiperSlide key={avatar.id} className="avatar-item">
+              <img src={avatar.imageSrc} alt={avatar.name} />
+              <h4>{avatar.name}</h4>
+              <p>{avatar.role}</p>
+              <p className="quote">{avatar.quote}</p>
+              <FaQuoteRight />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
 
       <div className="section4-content">
